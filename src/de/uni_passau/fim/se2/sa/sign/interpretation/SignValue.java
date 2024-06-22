@@ -1,11 +1,13 @@
 package de.uni_passau.fim.se2.sa.sign.interpretation;
 
 import com.google.common.base.Preconditions;
+
 import org.objectweb.asm.tree.analysis.Value;
 
 /** An enum representing the possible abstract values of the sign analysis. */
 public enum SignValue implements Value {
-  // Important! This implementation is kind of fragile. Don't change the order of enum values!
+  // Important! This implementation is kind of fragile. Don't change the order of
+  // enum values!
   // Otherwise, code will break 🤡:)
   BOTTOM("⊥"), // 0
   MINUS("{–}"), // 1
@@ -39,7 +41,8 @@ public enum SignValue implements Value {
         "Dummy shall not be used as a value.");
 
     // TODO Implement me
-    throw new UnsupportedOperationException("Implement me");
+    int value = this.ordinal() | pOther.ordinal();
+    return SignValue.values()[value];
   }
 
   public boolean isLessOrEqual(final SignValue pOther) {
@@ -48,26 +51,26 @@ public enum SignValue implements Value {
         "Dummy shall not be used as a value.");
 
     // TODO Implement me
-    throw new UnsupportedOperationException("Implement me");
+    return (~pOther.ordinal() & this.ordinal()) == 0;
   }
 
   public static boolean isZero(final SignValue pValue) {
     // TODO Implement me
-    throw new UnsupportedOperationException("Implement me");
+    return pValue == ZERO;
   }
 
   public static boolean isMaybeZero(final SignValue pValue) {
     // TODO Implement me
-    throw new UnsupportedOperationException("Implement me");
+    return (pValue.ordinal() & ZERO.ordinal()) != 0 || pValue.equals(SignValue.UNINITIALIZED_VALUE);
   }
 
   public static boolean isNegative(final SignValue pValue) {
     // TODO Implement me
-    throw new UnsupportedOperationException("Implement me");
+    return pValue == MINUS;
   }
 
   public static boolean isMaybeNegative(final SignValue pValue) {
     // TODO Implement me
-    throw new UnsupportedOperationException("Implement me");
+    return (pValue.ordinal() & MINUS.ordinal()) != 0 || pValue.equals(SignValue.UNINITIALIZED_VALUE);
   }
 }
